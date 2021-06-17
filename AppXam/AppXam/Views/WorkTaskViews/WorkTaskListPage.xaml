@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppXam.Views.WorkTaskViews.WorkTaskListPage"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             Title="Lista de Tareas">
+    <ContentPage.Content>
+        <AbsoluteLayout
+            x:Name="layout"
+            VerticalOptions="FillAndExpand" 
+            HorizontalOptions="FillAndExpand"
+            BindingContext="{Binding WorkTaskListViewModel}"
+            Padding="8">
+            <StackLayout
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                AbsoluteLayout.LayoutFlags="SizeProportional">
+                <ScrollView
+                    Padding="0,0,0,80">
+                    <ListView
+                        SelectionMode="None"
+                        IsRefreshing="{Binding IsRefreshing}"
+                        HasUnevenRows="True"
+                        ItemsSource="{Binding TaskList}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <ViewCell.ContextActions>
+                                        <MenuItem Text="Completar" 
+                                                  Command="{Binding Path=BindingContext.CompletedWorkTaskCommand, Source={x:Reference layout}}"
+                                                  CommandParameter="{Binding .}"/>
+                                        <MenuItem Text="Eliminar" 
+                                                  Command="{Binding Path=BindingContext.DeleteWorkTaskCommand, Source={x:Reference layout}}"
+                                                  CommandParameter="{Binding .}"/>
+                                    </ViewCell.ContextActions>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackLayout
+                                            Grid.Column="0"
+                                            VerticalOptions="Center"
+                                            Orientation="Vertical">
+                                            <Label
+                                                FontSize="Medium"
+                                                Text="{Binding Description}">
+                                            </Label>
+                                        </StackLayout>
+                                        <StackLayout
+                                            Grid.Column="1"
+                                            VerticalOptions="Center"
+                                            Orientation="Vertical">
+                                            <Label
+                                                HorizontalTextAlignment="Center"
+                                                FontSize="Large"
+                                                FontFamily="FontAwesome"
+                                                Text="{Binding StatusStr}">
+                                            </Label>
+                                        </StackLayout>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </ScrollView>
+
+            </StackLayout>
+            <Button
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                AbsoluteLayout.LayoutBounds=".98,.98,50,50"
+                BackgroundColor="#00284A"
+                Command="{Binding AddWorkTaskCommand}"
+                CornerRadius="30"
+                Text="&#xf067;"
+                FontFamily="FontAwesome"
+                FontSize="30"
+                TextColor="White">
+            </Button>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>
